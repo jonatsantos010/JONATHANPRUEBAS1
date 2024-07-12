@@ -1,0 +1,16 @@
+<div class="container-modal">
+        <button class="close"(click)="reference.close()">x</button>
+       <div class="content">
+        <div class="container-title-modal">
+            <h3 class="title">Cargar File firmado</h3>
+          </div>
+        <input class="nameFile" type="text" [value]="pdfFile ? pdfFile.name : ''" readonly placeholder="Nombre del archivo">
+        <input type="file" (change)="onFileChange($event)" accept=".pdf" id="fileInput" style="display: none;">
+
+        <div class="content-buttons">
+            <label class="button"  for="fileInput" id="fileInputLabel">Seleccionar</label>
+            <div *ngIf="errorMessage">{{ errorMessage }}</div>
+            <button class="button" id="button" (click)="onSubmit()" [disabled]="!pdfFile">Cargar</button>
+        </div>
+       </div>
+</div>  

@@ -1,0 +1,38 @@
+export const environment = {
+  production: true,
+  canaldeventadefault: '2015000002',
+  puntodeventadefault: '2',
+  codigocomercio: '650061416',
+  codigocomercioTP: '650159526',
+  codigocomercioVidaLey: '650161817',
+  codigocomercioATP: '522591303',
+  codigocomercioAP: '650193191',
+  codigocomercioSctr: '650169514',
+  codigocomercioRenovacion: '650176505',
+  codigoComercioShop: '650184661',
+  trackIdAP: 'UA-215670846-3',
+  trackIdVDP: 'GTM-KGHZP6F',
+  tagManagerIdAP: 'GTM-WK2KZH2',
+  bigPrime: 'yn83xae2se9s8ycv9je9zkgur3f24658ca',
+  recaptchaKey: '6Lc4sn8UAAAAAD1V604HezdXnlLTz2n4-dhKLjpm',
+  apiBigprime: 'https://protecta.bigfacelatam.com',
+  pagoefectivoservice: 'https://cip.pagoefectivo.pe/genpagoif.aspx',
+  visabuttonservice: 'https://static-content.vnforapps.com/v2/js/checkout.js',
+  visabuttonserviceRenovacion:
+    'https://static-content.vnforapps.com/vToken/js/checkout.js',
+  versioncheckurl:
+    'https://plataformadigital.protectasecurity.pe/ecommerce/version.json',
+  kunturapi: 'https://servicios.protectasecurity.pe/WSKuntur/Api',
+  reportapi: 'https://servicios.protectasecurity.pe/WSREPORTAPI/Api',
+  backendapi: 'https://servicios.protectasecurity.pe/WSPlataformaDigital/api',
+  wspdApi: 'https://servicios.protectasecurity.pe/wspd/api',
+  wspdApiAWS: 'https://serviciosqa.protectasecurity.pe/wspdqaAWS/api',
+  backofficeApi: 'https://servicios.protectasecurity.pe/backoffice',
+  domainurl: 'https://plataformadigital.protectasecurity.pe/ecommerce',
+  domain: 'plataformadigital.protectasecurity.pe',
+  descargacomprobanteapi:
+    'https://servicios.protectasecurity.pe/efacturacion/api/Comprobante/DescargarMasivo',
+  validarcomprobanteapi:
+    'https://servicios.protectasecurity.pe/efacturacion/api/Comprobante/ValidarCDR',
+  version: require('../../package.json').version,
+};

@@ -1,0 +1,152 @@
+<div class="form-group row ">
+    <div class="col-lg-3">
+        <app-nav-menuprod></app-nav-menuprod>
+    </div>
+
+    <div class="col-lg-9 container">
+        <h2 class="title">
+            Bandeja de solicitudes
+        </h2>
+        <div class="card-body">
+            <div class="form-filters">
+            <form-input-text text_label="Ramo:"
+                             [onlyInput]="true"
+                             [(value)]="SEARCH_PARAMS.ramo"
+                             [large]="true"
+                             [disabled]="true"></form-input-text>
+            <form-input-text text_label="Producto:"
+                             [onlyInput]="true"
+                             [(value)]="SEARCH_PARAMS.product"
+                             [large]="true"
+                             [disabled]="true"></form-input-text>
+            <form-input-text text_label="Póliza:"
+                             [onlyInput]="true"
+                             [(value)]="SEARCH_PARAMS.poliza"
+                             [patternPrevent]="CONSTANTS.REGEX.NUMBER_"
+                             maxCaracter="10"
+                             [large]="true"></form-input-text>
+            <form-input-date [(value)]="SEARCH_PARAMS.date_start"
+                             [(value)]="SEARCH_PARAMS.date_start"
+                             text_label="Inicio de Emisión"></form-input-date>
+            <form-input-date [(value)]="SEARCH_PARAMS.date_end"
+                             text_label="Fin de Emisión"></form-input-date>
+            <form-input-select text_label="Tipo de documento:"
+                               [service]="clientInformationService"
+                               method="getDocumentTypeList"
+                               [updateModelOnChange]="true"
+                               (onSelect)="changeDocumentType()"
+                               [(value)]="SEARCH_PARAMS.document_type"
+                               [params]="codProducto"
+                               fieldCodigo="Id"
+                               fieldValor="Name"
+                               [firstSelect]="true"
+                               [large]="true"
+                               [disabled]="SEARCH_PARAMS.document_type_disabled">
+                ></form-input-select>
+            <form-input-text text_label="Número de documento:"
+                             [patternPrevent]="CONSTANTS.REGEX.NUMBER"
+                             maxCaracter="{{SEARCH_PARAMS.number}}"
+                             [(value)]="SEARCH_PARAMS.document_number"
+                             [large]="true"
+                             [disabled]="SEARCH_PARAMS.document_number_disabled"></form-input-text>
+            <form-input-text text_label="Nombre Contratante:"
+                             [(value)]="SEARCH_PARAMS.contractorName"
+                             maxCaracter="19"
+                             [patternPrevent]="CONSTANTS.REGEX.LETRAS"
+                             [large]="true"></form-input-text>
+                            </div>
+                            <div class="content-btn">
+                                <form-button label="Limpiar"    
+                                             btnClass="btn-secondary-VI text-nowrap"
+                                             [slim]="true"
+                                             (onClick)="SEARCH_PARAMS_INITIAL()"></form-button>
+                                <form-button label="Buscar"
+                                             btnClass="btn-primary-VI text-nowrap"
+                                             [slim]="true"
+                                             (onClick)="buscar()"></form-button>
+                            </div>
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table ">
+                                        <thead class="table-titles">
+                                            <th class="table-title-item">Ramo</th>
+                                            <th class="table-title-item">Producto</th>
+                                            <th class="table-title-item">Póliza</th>
+                                            <th class="table-title-item">Doc Contratante</th>
+                                            <th class="table-title-item">Nombre Contratante</th>
+                                            <th class="table-title-item">Aporte</th>
+                                            <th class="table-title-item">Fondo</th>
+                                            <th class="table-title-item">Frecuencia</th>
+                                            <th class="table-title-item">Fecha Emisión</th>
+                                            <th class="table-title-item">Acciones</th>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngIf="!requests_list?.length">
+                                                <tr class="grid-body">
+                                                    <td class="grid-body-item"
+                                                        colspan="10"
+                                                        style="text-align: center">
+                                                        No se encontraron registros.
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                            <ng-container *ngIf="!!requests_list?.length">
+                                                <ng-container *ngFor="let item of requests_list; let index = index">
+                                                    <tr class="grid-body"
+                                                        [id]="'row' + index"
+                                                        *ngIf="(profile_id == 196 && item.NID_STATE == 9) ||(profile_id == 203 && item.NID_STATE == 6) ||(profile_id == 192) "
+                                                        >
+                                                        <td class="table-text-item">{{item.SRAMO}}</td>
+                                                        <td class="table-text-item">{{item.SPRODUCTO}}</td>
+                                                        <td class="table-text-item">{{item.NPOLIZA}}</td>
+                                                        <td class="table-text-item">{{item.SDOC_CONT}}</td>
+                                                        <td class="table-text-item">{{item.SNAME_CONT}}</td>
+                                                        <td class="table-text-item">{{item.SAPORTE}}</td>
+                                                        <td class="table-text-item">{{item.SFONDO}}</td>
+                                                        <td class="table-text-item">{{item.SFRCUENCIA}}</td>
+                                                        <td class="table-text-item">{{item.DFECHA_EMISION}}</td>
+                                                        <td class="tbl__body-row-item tbl-actions actions" ngbDropdown>
+                                                            <button class="btn-dropdown-u"
+                                                                    tabindex="0"
+                                                                    data-toggle="dropdown"
+                                                                    aria-haspopup="true"
+                                                                    aria-expanded="false"
+                                                                    ngbDropdownToggle>
+                                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                            </button>
+                                                            <ul class="dropdown-u" display="dynamic" ngbDropdownMenu>
+                                                                <li class="dropdown-item-u">
+                                                                    <button class="dropdown-item-btn-u"
+                                                                            title="Suscripción"
+                                                                            *ngIf="profile_id == 192 && item.NSTATE_SOLID != 3"
+                                                                            (click)="suscripcion(item.NRO_COTIZACION)">
+                                                                        <i class="fa fa-eye fa-lg"></i> Suscripción
+                                                                    </button>
+                                                                    <button class="dropdown-item-btn-u"
+                                                                            title="Suscripción"
+                                                                            *ngIf="profile_id == 196 && item.NID_STATE == 9"
+                                                                            (click)="suscripcion(item.NRO_COTIZACION)">
+                                                                        <i class="fa fa-eye fa-lg"></i> Atender G
+                                                                    </button>
+                                                                    <button class="dropdown-item-btn-u"
+                                                                            title="Suscripción"
+                                                                            *ngIf="profile_id == 203 && item.NID_STATE == 6"
+                                                                            (click)="suscripcion(item.NRO_COTIZACION)">
+                                                                        <i class="fa fa-eye fa-lg"></i> Atender C
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </ng-container>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>                 
+
+        </div>
+       
+    </div>
+</div>
